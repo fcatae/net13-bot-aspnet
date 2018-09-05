@@ -7,7 +7,7 @@ using System.Web.Http.Description;
 using Microsoft.Bot.Connector;
 
 namespace SimpleBot
-{
+{ 
     [BotAuthentication]
     public class MessagesController : ApiController
     {
