@@ -14,6 +14,8 @@ namespace SimpleBot
         [ResponseType(typeof(void))]
         public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {
+            //teste wagner
+
             if ( activity != null && activity.Type == ActivityTypes.Message)
             {
                 await HandleActivityAsync(activity);
