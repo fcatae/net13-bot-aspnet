@@ -8,6 +8,7 @@ using Microsoft.Bot.Connector;
 
 namespace SimpleBot
 {
+    // teste
     [BotAuthentication]
     public class MessagesController : ApiController
     {
