@@ -26,6 +26,7 @@ namespace SimpleBot
         // Estabelece comunicação entre o usuário e o SimpleBotUser
         async Task HandleActivityAsync(Activity activity)
         {
+            //teste luiz fernando
             string text = activity.Text;
             string userFromId = activity.From.Id;
             string userFromName = activity.From.Name;
