@@ -11,6 +11,7 @@ namespace SimpleBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        //Teste Commit - Ronaldo.
         [ResponseType(typeof(void))]
         public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {
