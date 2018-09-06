@@ -33,7 +33,10 @@ namespace SimpleBot
 
             var message = new Message(userFromId, userFromName, text);
 
+
+           
             string response = SimpleBotUser.Reply(message);
+            var teste = SimpleBotUser.GetProfile(message.Id);
 
             await ReplyUserAsync(activity, response);
         }
