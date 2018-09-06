@@ -17,28 +17,56 @@ namespace SimpleBot
             var client = new MongoClient("mongodb://127.0.0.1:27017");
             var db = client.GetDatabase("test");            
             var col = db.GetCollection<BsonDocument>("messages");
-            
-            message.UserId = "UsuarioPadraoID";
 
-            var profile = GetProfile(message.UserId);
-            if (profile != null) profile.Visitas++;
-            SetProfile(message.UserId, profile);
-
-            message.Text = BuildRealLifeAnalytics(message.Text);                      
-            col.InsertOne(message.ToBsonDocument());
            
+                message.UserId = "UsuarioPadraoID";
+
+            UserProfile profile = new UserProfile(); 
+            try
+            {
+
+                profile = GetProfile(message.UserId);
+            }
+            catch (Exception ex)
+            {
+                var a = 1;
+            }
+
+            try
+            {
+                if (profile != null && profile.Id != null) profile.Visitas++;
+                SetProfile(message.UserId, profile);
+            }
+            catch (Exception ex)
+            {
+                var a = 1;
+            }
+
+            try
+            {
+                message.Text = BuildRealLifeAnalytics(message.Text);
+                col.InsertOne(message.ToBsonDocument());
+            }
+            catch (Exception ex)
+            {
+                var a = 1;
+            }
+
+
+
+
             return $"Visits: {profile.Visitas}\n{message.User} disse '{message.Text}'";
         }
 
         public static UserProfile GetProfile(string id)
-        {
+        {            
             var client = new MongoClient("mongodb://127.0.0.1:27017");
             var db = client.GetDatabase("test");
             var col = db.GetCollection<UserProfile>("profiles");
 
-            var filter = Builders<UserProfile>.Filter.Eq("Id", id);            
+            var filter = Builders<UserProfile>.Filter.Eq("ProfileId", id);            
             var profile = col.Find(filter).First();
-          
+           
             return profile;
         }
 
