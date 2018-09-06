@@ -19,10 +19,12 @@ namespace SimpleBot
             var col = db.GetCollection<BsonDocument>("messages");
             
             message.UserId = "UsuarioPadraoID";
-            var profile = GetProfile(message.UserId);
 
-            message.Text = BuildRealLifeAnalytics(message.Text);          
-            
+            var profile = GetProfile(message.UserId);
+            if (profile != null) profile.Visitas++;
+            SetProfile(message.UserId, profile);
+
+            message.Text = BuildRealLifeAnalytics(message.Text);                      
             col.InsertOne(message.ToBsonDocument());
            
             return $"Visits: {profile.Visitas}\n{message.User} disse '{message.Text}'";
@@ -32,18 +34,11 @@ namespace SimpleBot
         {
             var client = new MongoClient("mongodb://127.0.0.1:27017");
             var db = client.GetDatabase("test");
-            var col = db.GetCollection<BsonDocument>("profiles");
+            var col = db.GetCollection<UserProfile>("profiles");
 
-            var filter = Builders<BsonDocument>.Filter.Eq("UserID", id);            
-            var res = col.Find(filter).First();
-
-            var profile = new UserProfile()
-            {
-                Id = res["Id"].ToString(),
-                Name = res["Name"].ToString(),
-                Visitas = res["Visitas"].ToInt32()
-            };
-
+            var filter = Builders<UserProfile>.Filter.Eq("Id", id);            
+            var profile = col.Find(filter).First();
+          
             return profile;
         }
 
@@ -51,14 +46,15 @@ namespace SimpleBot
         {
             var client = new MongoClient("mongodb://127.0.0.1:27017");
             var db = client.GetDatabase("test");
-            var col = db.GetCollection<BsonDocument>("profiles");
-            
-            profile.Visitas++;
-            
+            var col = db.GetCollection<UserProfile>("profiles");
 
-            message.Text = BuildRealLifeAnalytics(message.Text);
-
-            col.InsertOne(message.ToBsonDocument());
+            if (profile == null)
+                col.InsertOne(new UserProfile() { Id = "UsuarioPadraoID", Name = "Meu nome", Visitas = 1 });
+            else
+            {
+                var filter = Builders<UserProfile>.Filter.Eq("Id", id);
+                col.ReplaceOne(filter, profile);
+            }
         }
 
         private static string BuildRealLifeAnalytics(string message)
