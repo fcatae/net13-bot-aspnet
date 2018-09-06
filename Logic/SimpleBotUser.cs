@@ -52,7 +52,7 @@ namespace SimpleBot
             IMongoDatabase db = client.GetDatabase("User");
             IMongoCollection<UserProfile> col = db.GetCollection<UserProfile>("UserProfile");
             FilterDefinition<UserProfile> filtro = Builders<UserProfile>.Filter.Eq("_id", id);
-            col.ReplaceOne(filtro, profile);
+            col.ReplaceOne(filtro, profile, new UpdateOptions() { IsUpsert = true });
 
         }
     }
