@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,7 +9,8 @@ namespace SimpleBot
 {
     public class Message
     {
-        public string Id { get; }
+        public string Id { get; set; }
+        
         public string User { get; }
         public string Text { get; }
 
