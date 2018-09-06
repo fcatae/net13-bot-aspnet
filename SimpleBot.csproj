@@ -141,6 +141,11 @@
     <Compile Include="Logic\SimpleBotUser.cs" />
     <Compile Include="Logic\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\HistoricoMongoRepository.cs" />
+    <Compile Include="Repository\InterfacesRepository.cs" />
+    <Compile Include="Repository\UserProfileMongo.cs" />
+    <Compile Include="Repository\UserProfileMongoRepository.cs" />
+    <Compile Include="Repository\UserProfileMemoryRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
