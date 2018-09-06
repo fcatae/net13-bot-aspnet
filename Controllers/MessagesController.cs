@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.Bot.Connector;
+using MongoDB.Driver;
+using SimpleBot.Context;
 
 namespace SimpleBot
 {
@@ -25,12 +27,17 @@ namespace SimpleBot
 
         // Estabelece comunicação entre o usuário e o SimpleBotUser
         async Task HandleActivityAsync(Activity activity)
-        {
+        {   
             string text = activity.Text;
             string userFromId = activity.From.Id;
             string userFromName = activity.From.Name;
 
             var message = new Message(userFromId, userFromName, text);
+            
+            #region Salvando as paradas de MONGO DB
+            MongoDb.SaveActivity(activity);
+            MongoDb.SaveReceivedMessage(message);
+            #endregion
 
             string response = SimpleBotUser.Reply(message);
 
