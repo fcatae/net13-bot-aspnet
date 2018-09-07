@@ -1,6 +1,5 @@
-obj/
-bin/
-packages/
-*.pubxml.user
-*.csproj.user
-.vs/
+Web.config
+/.vs
+/bin
+/obj/Debug
+/packages

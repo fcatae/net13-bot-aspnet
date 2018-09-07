@@ -4,82 +4,87 @@ using System.Linq;
 using System.Web;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Text;
+using MongoDB.Bson.Serialization;
+using System.Configuration;
 
 namespace SimpleBot
 {
     public class SimpleBotUser
-    {
-        private readonly IMongoDatabase _db;
-        private readonly MongoClient _client;
-        public SimpleBotUser()
-        {
-            _client = new MongoClient("mongodb://localhost:27017");
-            _db = _client.GetDatabase("dbNet13");
-        }
+    {       
         public static string Reply(Message message)
         {
+            
             var id = message.Id;
             var profile = GetProfile(id);
-            if(profile==null)
-                SetProfile(id, profile);
+           
+            SetProfile(id, ref profile);
+            switch (message.Text)
+            {
+                case "Qual o meu id?":
+                    return $"Seu id é {profile.IdUser}";                    
+                case "Apagar meu profile":
+                    RemoveUserProfile(profile);
+                    return $"Profile '{profile.IdUser}' apagado com sucesso...";
+            }
+            if(profile.Visitas ==1)
+                return $"Ola, seja bem vindo! Essa é a sua {profile.Visitas}ª mensagem";
 
-            profile.Visitas += 1;
-            SetProfile(id, profile);
-
-
-            //var client = new MongoClient("mongodb://localhost:27017");
-
-            //var doc = new BsonDocument()
-            //{
-            //    { "id", message.Id},
-            //    { "texto", message.Text},
-            //    { "app", "TesteApp"}
-            //};
-
-            //var db = client.GetDatabase("dbNet13");
-            //var col = db.GetCollection<BsonDocument>("user");
-            //col.InsertOne(doc);
-            
-            return $"{message.User} disse '{message.Text}'";
+            return $"{message.User} enviou a {profile.Visitas}ª mensagem";
         }
 
         public static UserProfile GetProfile(string id)
         {
-            var client = new MongoClient("mongodb://localhost:27017");
+            var client = new MongoClient();
+            try
+            {                
+                   client = new MongoClient(ConfigurationManager.AppSettings["ConnectionString"].ToString());
+            }catch(Exception er)
+            {
+                string erro = er.Message;
+            }
             var db = client.GetDatabase("dbNet13");
 
-
-            var filtro = Builders<UserProfile>.Filter.Eq("Id", id);
-            var col = db.GetCollection<UserProfile>("UserProfile");
-            var res = col.Find(filtro).ToList().FirstOrDefault();
-
-            return res;
-        }
-
-        public static void SetProfile(string id, UserProfile profile)
-        {
-            var doc = new BsonDocument();
+            UserProfile usuarioEncontrado = null;
             try
             {
-                doc = new BsonDocument()
+                usuarioEncontrado = db.GetCollection<UserProfile>("UserProfile")
+                    .Find(u => u.IdUser == id).First();                
+            }
+            catch
             {
-                { "UserProfile", new BsonDocument
-                    {
-                        { "Id", id },
-                        { "Visitas", 1 }
-                    }
-                }
-            };
-            }catch(Exception erro)
-            {
-                string msg = erro.Message;
             }
 
+            return usuarioEncontrado;
+        }
 
-            var client = new MongoClient("mongodb://localhost:27017");
+        public static void SetProfile(string id,ref  UserProfile profile)
+        {
+            var client = new MongoClient(ConfigurationManager.AppSettings["ConnectionString"].ToString());
             var db = client.GetDatabase("dbNet13");
-            var col = db.GetCollection<BsonDocument>("UserProfile");
-            col.InsertOne(doc);
+            var col = db.GetCollection<UserProfile>("UserProfile");
+
+            if (profile == null)
+            {
+                profile = new UserProfile();
+                profile.IdUser = id;
+                profile.Visitas = 1;
+                col.InsertOne(profile);
+            }
+            else
+            {
+                profile.Visitas += 1;
+                col.ReplaceOne(p=>p.IdUser == id,profile);
+            }
+        }
+
+        public static void RemoveUserProfile(UserProfile profile)
+        {
+            var client = new MongoClient(ConfigurationManager.AppSettings["ConnectionString"].ToString());
+            var db = client.GetDatabase("dbNet13");
+            var col = db.GetCollection<UserProfile>("UserProfile");
+
+            col.DeleteOne(p=>p.IdUser==profile.IdUser);
         }
     }
 }
