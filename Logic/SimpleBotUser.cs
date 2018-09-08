@@ -42,7 +42,7 @@ namespace SimpleBot
             var db = client.GetDatabase("SimpleBotDB");
             var col = db.GetCollection<BsonDocument>("UserProfile");
 
-            var filtro = Builders<BsonDocument>.Filter.Eq("id", id);
+            var filtro = Builders<BsonDocument>.Filter.Eq("Id", id);
             var res = col.Find(filtro).ToList();
 
             UserProfile userProfile = new UserProfile();
@@ -51,9 +51,19 @@ namespace SimpleBot
                 userProfile.Id = id;
                 userProfile.Visitas = 1;
             }
-            else
+            else if (res.Count == 1)
             {
+                foreach (var e in res)
+                {
+                    var s = e.Values.ToList();
+                    userProfile.Id = e[1].ToString();
+                    userProfile.Visitas = Int32.Parse(e[2].ToString());
+                    userProfile.Visitas += 1;
+                }
+
             }
+            else
+            { }
 
             return userProfile;
         }
@@ -69,6 +79,7 @@ namespace SimpleBot
             var client = new MongoClient("mongodb://localhost:27017");
             var db = client.GetDatabase("SimpleBotDB");
             var col = db.GetCollection<BsonDocument>("UserProfile");
+            var filtro = Builders<BsonDocument>.Filter.Eq("Id", id);
 
             if (profile.Visitas == 1)
             {
@@ -76,7 +87,7 @@ namespace SimpleBot
             }
             else
             {
-                col.ReplaceOne(doc, doc);
+                col.ReplaceOne(filtro, doc);
             }
         }
     }
