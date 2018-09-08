@@ -29,6 +29,7 @@ namespace SimpleBot
             col.InsertOne(doc);
 
             UserProfile userProfile = GetProfile(message.Id);
+            userProfile.Visitas += 1;
             SetProfile(userProfile.Id, userProfile);
 
             //return $"{message.User} disse '{message.Text}'";
@@ -58,7 +59,7 @@ namespace SimpleBot
                     var s = e.Values.ToList();
                     userProfile.Id = e[1].ToString();
                     userProfile.Visitas = Int32.Parse(e[2].ToString());
-                    userProfile.Visitas += 1;
+                    //userProfile.Visitas += 1;
                 }
 
             }
@@ -69,7 +70,7 @@ namespace SimpleBot
         }
 
         public static void SetProfile(string id, UserProfile profile)
-        {
+        {          
             var doc = new BsonDocument
             {
                 {"Id", profile.Id },
