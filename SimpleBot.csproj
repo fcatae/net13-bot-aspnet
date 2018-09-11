@@ -50,6 +50,12 @@
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bot.Connector, Version=3.13.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bot.Connector.3.13.1\lib\net46\Microsoft.Bot.Connector.dll</HintPath>
     </Reference>
@@ -133,15 +139,22 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connection\mongoDB.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interface\IMessageRepository.cs" />
+    <Compile Include="Interface\IUserProfileRepository.cs" />
+    <Compile Include="Interface\MessageRepository.cs" />
+    <Compile Include="Interface\UserProfileRepository.cs" />
+    <Compile Include="Interface\UserProfileSQLRepository.cs" />
     <Compile Include="Logic\Message.cs" />
     <Compile Include="Logic\MessageBson.cs" />
     <Compile Include="Logic\SimpleBotUser.cs" />
     <Compile Include="Logic\UserProfile.cs" />
+    <Compile Include="ModelsSQL\BotContext.cs" />
+    <Compile Include="ModelsSQL\MessageSQL.cs" />
+    <Compile Include="ModelsSQL\ProfileSQL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+using System.Data.Entity;
 using System.Web.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -9,6 +10,7 @@ namespace SimpleBot
         protected void Application_Start()
         {            
             GlobalConfiguration.Configure(Register);
+            Database.SetInitializer(new CreateDatabaseIfNotExists<BotContext>());
         }
 
         static void Register(HttpConfiguration config)
