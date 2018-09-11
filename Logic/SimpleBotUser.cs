@@ -1,86 +1,48 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MongoDB.Driver;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
+using SimpleBot.Logic;
 
 namespace SimpleBot
 {
-    public class SimpleBotUser
+    public static class SimpleBotUser
     {
-        
+        static IUserProfileRepository _userProfile;
+
+        static SimpleBotUser()
+        {
+            _userProfile = new UserProfileSQLRepo("mongodb://127.0.0.1");
+        }
+
         public static string Reply(Message message)
         {
             var id = message.Id;
-            var profile = GetProfile(id);
+
+            var profile = _userProfile.GetProfile(id);
+
             profile.Visitas += 1;
 
-            SetProfile(id, profile);
+            _userProfile.SetProfile(id, profile);
 
-            //var client = new MongoClient("mongodb://localhost:27017");
-
-            //var doc = new BsonDocument
-            //{
-            //    { "id", message.Id},
-            //    { "texto", message.Text},
-            //    { "app", "teste"}
-            //};
-
-            //var db = client.GetDatabase("db01");
-            //var col = db.GetCollection<BsonDocument>("tabela01");
-
-            //col.InsertOne(doc);
-
-            return $"{message.User} disse '{message.Text}'";
+            return $"{message.User} disse '{message.Text} e mandou {profile.Visitas} mensagens'";
         }
 
-        public static UserProfile GetProfile(string id)
-        {
-            var client = new MongoClient("mongodb://localhost:27017");
-            var db = client.GetDatabase("db01");
-            var col = db.GetCollection<BsonDocument>("userProfile");
+        //public static void SalvarHistorico(Message message)
+        //{
+        //    var client = new MongoClient("mongodb://localhost:27017");
 
-            var filtro = Builders<BsonDocument>.Filter.Eq("id", id);
-            var res = col.Find(filtro);           
+        //    var doc = new BsonDocument
+        //    {
+        //        { "id", message.Id },
+        //        { "texto", message.Text},
+        //        { "app", "teste"}
+        //    };
 
-            if (res.ToList().Count == 0)
-            {
-                return new UserProfile
-                {
-                    Id = id,
-                    Visitas = 0
-                };
+        //    var db = client.GetDatabase("db01");
+        //    var col = db.GetCollection<BsonDocument>("tabela01");
+        //    col.InsertOne(doc);
+        //}
 
-            }
-            else {
-                var bsonObject = res.ToBsonDocument();
-                var myObj = BsonSerializer.Deserialize<UserProfile>(bsonObject);
-                //retornar o documento;
-                return myObj;
-            }
-            
-        }
-
-        public static void SetProfile(string id, UserProfile profile)
-        {
-            var client = new MongoClient("mongodb://localhost:27017");
-
-            var doc = new BsonDocument
-            {
-                { "id", profile.Id},
-                { "visitas",profile.Visitas}               
-            };
-
-            var db = client.GetDatabase("db01");
-            var col = db.GetCollection<BsonDocument>("userProfile");
-
-            var filtro = Builders<BsonDocument>.Filter.Eq("id", id);
-
-            col.ReplaceOne(filtro, doc);
-
-
-        }
     }
 }

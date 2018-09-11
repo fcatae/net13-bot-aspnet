@@ -7,7 +7,6 @@ namespace SimpleBot
 {
     public class Message
     {
-        //teste
         public string Id { get; }
         public string User { get; }
         public string Text { get; }
