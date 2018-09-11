@@ -1,105 +1,124 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
+using SimpleBot.Config;
+using SimpleBot.Repository.SqlServer;
+using System;
+using System.Linq;
 
-namespace SimpleBot
+namespace SimpleBot.Logic
 {
     public class SimpleBotUser
-    {         
+    {
 
         public static string Reply(Message message)
         {
-            var client = new MongoClient("mongodb://127.0.0.1:27017");
-            var db = client.GetDatabase("test");            
-            var col = db.GetCollection<BsonDocument>("messages");
+            GravarMensagem(message);
 
-           
-                message.UserId = "UsuarioPadraoID";
+            var profile = GetProfile(message.Id);            
+            SetProfile(profile);
+            profile = GetProfile(message.Id);
 
-            UserProfile profile = new UserProfile(); 
-            try
-            {
-
-                profile = GetProfile(message.UserId);
-            }
-            catch (Exception ex)
-            {
-                var a = 1;
-            }
-
-            try
-            {
-                if (profile != null && profile.Id != null) profile.Visitas++;
-                SetProfile(message.UserId, profile);
-            }
-            catch (Exception ex)
-            {
-                var a = 1;
-            }
-
-            try
-            {
-                message.Text = BuildRealLifeAnalytics(message.Text);
-                col.InsertOne(message.ToBsonDocument());
-            }
-            catch (Exception ex)
-            {
-                var a = 1;
-            }
-
-
-
-
-            return $"Visits: {profile.Visitas}\n{message.User} disse '{message.Text}'";
+            return $"{message.User} disse '{message.Text}' e mandou {profile.QtdMensagens} mensagens.";
         }
+
 
         public static UserProfile GetProfile(string id)
-        {            
-            var client = new MongoClient("mongodb://127.0.0.1:27017");
-            var db = client.GetDatabase("test");
-            var col = db.GetCollection<UserProfile>("profiles");
+        {
+            #region mongo
+            //try
+            //{
+            //    var connection = MongoDbConfiguration.Conexao;
+            //    var cliente = new MongoClient(connection);
 
-            var filter = Builders<UserProfile>.Filter.Eq("ProfileId", id);            
-            var profile = col.Find(filter).First();
-           
+            //    var db = cliente.GetDatabase(MongoDbConfiguration.Banco);
+
+            //    var col = db.GetCollection<BsonDocument>("usuario");
+
+            //    var filtro = Builders<BsonDocument>.Filter.Eq("id", id);
+            //    var bson = col.Find(filtro).FirstOrDefault();
+
+            //    if (bson == null)
+            //    {
+            //        return new UserProfile { Id = id, QtdMensagens = 1 };
+            //    }
+            //    else
+            //    {
+            //        return new UserProfile
+            //        {
+            //            Id = bson["id"].ToString(),
+            //            QtdMensagens = bson["mensagens"].ToInt32()
+            //        };
+            //    }
+
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
+            #endregion
+
+            var repo = new SqlServerUserProfileRepository();
+            var profile = repo.GetProfile(id);
+            if (profile == null)
+            {
+                repo.InsertProfile(id);
+                profile = repo.GetProfile(id);
+            }
+
             return profile;
         }
-
-        public static void SetProfile(string id, UserProfile profile)
+        public static void SetProfile(UserProfile profile)
         {
-            var client = new MongoClient("mongodb://127.0.0.1:27017");
-            var db = client.GetDatabase("test");
-            var col = db.GetCollection<UserProfile>("profiles");
+            #region mongo
+            //var connection = MongoDbConfiguration.Conexao;
+            //var cliente = new MongoClient(connection);
 
-            if (profile == null)
-                col.InsertOne(new UserProfile() { Id = "UsuarioPadraoID", Name = "Meu nome", Visitas = 1 });
-            else
-            {
-                var filter = Builders<UserProfile>.Filter.Eq("Id", id);
-                col.ReplaceOne(filter, profile);
-            }
+            //var db = cliente.GetDatabase(MongoDbConfiguration.Banco);
+
+            //var col = db.GetCollection<BsonDocument>(MongoDbConfiguration.TabelaUsuario);
+
+            //var filtro = Builders<BsonDocument>.Filter.Eq("id", profile.Id);
+            //var bson = col.Find(filtro).FirstOrDefault();
+
+            //if (bson == null)
+            //{
+            //    col.InsertOne(new BsonDocument { { "id", profile.Id }, { "mensagens", 1 } });
+            //}
+            //else
+            //{
+            //    bson["mensagens"] = profile.QtdMensagens + 1;
+            //    col.ReplaceOne(filtro, bson);
+            //}
+            #endregion mongo
+
+            profile.QtdMensagens++;
+
+            var repo = new SqlServerUserProfileRepository();
+            repo.SetProfile(profile);
         }
-
-        private static string BuildRealLifeAnalytics(string message)
+        public static void GravarMensagem(Message message)
         {
-            if (message.ToLower().Contains("igor"))
-                message = "Igor?\n fala pra krl, quero saber disso n.";
-            if (message.ToLower().Contains("renato"))
-                message = "Sim.\n mó viadão esquisito da porra.";
-            if (message.ToLower().Contains("jonas"))
-                message = "Jonas brothers?";
-            if (message.ToLower().Contains("harry"))
-                message = "Harry? você quis dizer Bieber?";
-            if (message.ToLower().Contains("kenzo"))
-                message = "Ja sabe né, Kenzo é tão macho quanto o harry.";
+            //try
+            //{
+            //    var connection = MongoDbConfiguration.Conexao;
+            //    var cliente = new MongoClient(connection);
 
+            //    var db = cliente.GetDatabase(MongoDbConfiguration.Banco);
 
-            return message;
+            //    var col = db.GetCollection<BsonDocument>(MongoDbConfiguration.TabelaMensagem);
+            //    var bson = new BsonDocument()
+            //{
+            //    { "id" , message.Id  },
+            //    { "user" , message.User  },
+            //    { "text" , message.Text  }
+            //};
+
+            //    col.InsertOne(bson);
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
         }
     }
 }

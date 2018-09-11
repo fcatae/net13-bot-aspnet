@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SimpleBot
+namespace SimpleBot.Logic
 {
+    [Table("UserProfile")]
     public class UserProfile
     {
-        public string ProfileId { get; set; }
-        public string Name { get; set; }
-        public int Visitas { get; set; }
+        public string Id { get; set; }
+        public int QtdMensagens { get; set; }
     }
 }
