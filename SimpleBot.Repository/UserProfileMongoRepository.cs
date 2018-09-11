@@ -4,14 +4,14 @@ using System.Linq;
 using System.Web;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using Newtonsoft;
+using SimpleBot.Models;
 using Newtonsoft.Json;
 
-namespace SimpleBot
+namespace SimpleBot.Repository
 {
-    public class SimpleBotUser
+    public class UserProfileMongoRepository
     {
-        public static string Reply(Message message)
+        public string Reply(MessageModel message)
         {
             var cliente = new MongoClient("mongodb://localhost:27017");
             var db = cliente.GetDatabase("13Net");
@@ -30,11 +30,11 @@ namespace SimpleBot
             };
 
             col.InsertOne(doc);
-            
+
             return $"{message.User} disse '{message.Text}'";
         }
 
-        public static UserProfile GetProfile(string id)
+        public UserProfileModel GetProfile(string id)
         {
             var cliente = new MongoClient("mongodb://localhost:27017");
             var db = cliente.GetDatabase("13Net");
@@ -44,27 +44,23 @@ namespace SimpleBot
             var doc = new BsonDocument()
             {
                 { "Id", id}
-                
+
             };
 
-            var result = col.Find<BsonDocument>(doc).FirstOrDefault();
+            var filtro = Builders<BsonDocument>.Filter.Gt("id", id);
 
+            var res = col.Find(filtro).ToList();
 
-            List<UserProfile> profile = JsonConvert.DeserializeObject<List<UserProfile>>(result.ToString()).ToList();
             var qtdVisitas = col.Find<BsonDocument>(doc).ToList();
 
-            UserProfile user = new UserProfile()
-            {
-                Id = profile.FirstOrDefault().Id,
-                Visitas = profile == null ? 0 :Convert.ToInt32(profile.Count) + 1
-            };
+            UserProfileModel user = new UserProfileModel() { };
 
             return user;
         }
 
-        public static void SetProfile(string id, UserProfile profile)
+        public void SetProfile(string id, UserProfileModel profile)
         {
-            
+
         }
     }
 }

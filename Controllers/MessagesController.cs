@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.Bot.Connector;
+using SimpleBot.Logic;
+using SimpleBot.Models;
 
 namespace SimpleBot
 {
@@ -31,12 +33,12 @@ namespace SimpleBot
             string userFromId = activity.From.Id;
             string userFromName = activity.From.Name;
 
-            var message = new Message(userFromId, userFromName, text);
+            var message = new MessageModel(userFromId, userFromName, text);
 
 
            
-            string response = SimpleBotUser.Reply(message);
-            var teste = SimpleBotUser.GetProfile(message.Id);
+            string response = new SimpleBotUserLogic().Reply(message);
+            var teste = new SimpleBotUserLogic().GetProfile(message.Id);
 
             await ReplyUserAsync(activity, response);
         }
