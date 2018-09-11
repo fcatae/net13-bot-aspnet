@@ -12,6 +12,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot.Repository", "Sim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot.Logic", "SimpleBot.Logic\SimpleBot.Logic.csproj", "{E3F8C25F-44A7-4167-9D0C-2A4968F8FC13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptsDB", "ScriptsDB", "{9DAF3986-383B-4377-BA80-31C3309F27A9}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_GetProfile.txt = ..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_GetProfile.txt
+		..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_SetProfile.txt = ..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_SetProfile.txt
+		..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\tabela.txt = ..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\tabela.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
