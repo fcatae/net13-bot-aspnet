@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using SimpleBot.Interfaces;
 
 namespace SimpleBot.Repository
 {
-    public class UserProfileSQLRepository
+    public class UserProfileSQLRepository : IUserProfileRepository
     {
         private string connectionString = @"Data Source=.;Initial Catalog=ConectionSQL;Integrated Security=True";
 

@@ -6,10 +6,11 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using SimpleBot.Models;
 using Newtonsoft.Json;
+using SimpleBot.Interfaces;
 
 namespace SimpleBot.Repository
 {
-    public class UserProfileMongoRepository
+    public class UserProfileMongoRepository 
     {
         public string Reply(MessageModel message)
         {

@@ -48,10 +48,6 @@
       <Project>{08e00f74-cce7-4844-8bdb-6948dbda7cf3}</Project>
       <Name>SimpleBot.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SimpleBot.Repository\SimpleBot.Repository.csproj">
-      <Project>{fa359eb9-b4ca-49c2-95a1-5412043e64ac}</Project>
-      <Name>SimpleBot.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

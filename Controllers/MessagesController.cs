@@ -38,8 +38,7 @@ namespace SimpleBot
 
            
             string response = new SimpleBotUserLogic().Reply(message);
-            var teste = new SimpleBotUserLogic().GetProfile(message.Id);
-
+            
             await ReplyUserAsync(activity, response);
         }
 

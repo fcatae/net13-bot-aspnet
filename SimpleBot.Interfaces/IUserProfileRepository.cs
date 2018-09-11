@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SimpleBot.Interfaces
 {
-    public interface IUserProfileRepository<T> where T : new()
+    public interface IUserProfileRepository
     {
         string Reply(MessageModel message);
 

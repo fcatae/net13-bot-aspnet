@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace SimpleBot.Logic 
 {
-    public class SimpleBotUserLogic : IUserProfileRepository<UserProfileSQLRepository>
-    {
-        //IUserProfileRepository<UserProfileSQLRepository> db;
+    public class SimpleBotUserLogic 
+    {   
 
-        UserProfileSQLRepository db = new UserProfileSQLRepository();
+        IUserProfileRepository db = new UserProfileSQLRepository();
 
         public string Reply(MessageModel message)
         {
