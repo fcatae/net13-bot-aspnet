@@ -5,86 +5,57 @@ using System.Web;
 using MongoDB;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using SimpleBot.Logic;
+using SimpleBot.Model;
 
 namespace SimpleBot
 {
-    public class SimpleBotUser
+    public  class SimpleBotUser
     {
 
-        public static string Popula_UserProfile(Message message)
+        public string Popula_UserProfile(Message message)
         {
             var id = message.Id;
+            UserProfile prof;
 
-            var prof = GetProfile(id);
+            using (var context = new Contexto())
+            {
+                var userProfileSql = new UserProfileSQLRepository(context);
 
-            prof.Visitas += 1;
+                prof = userProfileSql.GetProfile(id);
 
-            SetProfile(id, prof);
+                prof.Visitas += 1;
+
+                userProfileSql.SetProfile(id, prof);
+            }
 
             return $"{message.User} disse '{message.Text} e mandou {prof.Visitas} '";
         }
         
-        public static string Reply(Message message)
+        public string Reply(Message message)
         {
 
-            Popula_UserProfile(message);
+           return Popula_UserProfile(message);
 
-            var client = new MongoClient("mongodb://localhost:27017");
+            //var client = new MongoClient("mongodb://localhost:27017");
 
 
-            var db = client.GetDatabase("db01");
-            var col = db.GetCollection<BsonDocument>("tabela01");
+            //var db = client.GetDatabase("db01");
+            //var col = db.GetCollection<BsonDocument>("tabela01");
             
-            var doc = new BsonDocument()
-            {
-                {"id",message.Id },
-                {"texto", message.Text },
-                {"app","teste2" }
+            //var doc = new BsonDocument()
+            //{
+            //    {"id",message.Id },
+            //    {"texto", message.Text },
+            //    {"app","teste2" }
                 
-            };         
+            //};         
 
-            col.InsertOne(doc);
+            //col.InsertOne(doc);
            
-            return $"{message.User} disse '{message.Text}'";
+           // return $"{message.User} disse '{message.Text}'";
         }
 
-        public static UserProfile GetProfile(string id)
-        {        
-
-
-            var client = new MongoClient("mongodb://localhost:27017");
-            var db = client.GetDatabase("db01");
-            var col = db.GetCollection<UserProfile>("Profile01");
-
-
-            var filtro = Builders<UserProfile>.Filter.Eq("id",id);
-
-            var profile = col.Find(filtro).FirstOrDefault(); 
-
-            if (profile == null)
-            {
-                return new UserProfile()
-                {
-                    Id = id,
-                    Visitas = 0
-                };
-
-            }
-
-
-            return profile;
-        }
-
-        public static void SetProfile(string id, UserProfile profile)
-        {
-            var client = new MongoClient("mongodb://localhost:27017");
-            var db = client.GetDatabase("db01");
-            var col = db.GetCollection<UserProfile>("Profile01");
-
-            var filtro = Builders<UserProfile>.Filter.Eq("id", id);
-
-            col.ReplaceOne(filtro, profile);
-
-        }
+       
     }
 }
