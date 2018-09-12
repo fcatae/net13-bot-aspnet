@@ -172,6 +172,7 @@
     <Compile Include="Logic\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\DBContext.cs" />
+    <Compile Include="Repository\UserRepositoryEntity.cs" />
     <Compile Include="Repository\UserRepositoryDapper.cs" />
     <Compile Include="Repository\UserRepositorySQL.cs" />
     <Compile Include="Repository\UserRepositoryMongo.cs" />

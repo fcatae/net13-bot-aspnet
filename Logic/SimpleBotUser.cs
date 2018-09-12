@@ -7,8 +7,8 @@ namespace SimpleBot
         private static readonly DBContext context = new DBContext();
 
         public static string Reply(Message message)
-        {   
-            UserRepositoryDapper user = new UserRepositoryDapper(context);
+        {
+            UserRepositoryEntity user = new UserRepositoryEntity(context);
 
             var id = message.Id;
             var profile = user.GetProfile(id);
