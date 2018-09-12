@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System.Text;
-using MongoDB.Bson.Serialization;
-using SimpleBot.Repository;
+﻿using SimpleBot.Repository;
 
 namespace SimpleBot
 {
     public class SimpleBotUser
     {       
+        private static readonly DBContext context = new DBContext();
+
         public static string Reply(Message message)
-        {
-            UserRepositorySQL user = new UserRepositorySQL();
+        {   
+            UserRepositoryDapper user = new UserRepositoryDapper(context);
+
             var id = message.Id;
             var profile = user.GetProfile(id);
 

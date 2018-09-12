@@ -1,8 +1,5 @@
 ﻿using SimpleBot.Interfaces.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
@@ -108,7 +105,23 @@ namespace SimpleBot.Repository
 
         public void RemoveUserProfile(UserProfile profile)
         {
-            
+            try
+            {
+                client.Open();
+                string sql = "Delete from [UserProfile] where idUser=@IdUser";
+                SqlCommand myCommand = new SqlCommand(sql, client);
+                myCommand.Parameters.Add("@IdUser", SqlDbType.VarChar, 50).Value = profile.IdUser;
+
+                myCommand.ExecuteNonQuery();
+            }
+            catch (Exception erro)
+            {
+                string er = erro.Message;
+            }
+            finally
+            {
+                client.Close();
+            }
         }
     }
 }

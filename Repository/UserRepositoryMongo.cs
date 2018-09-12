@@ -1,9 +1,7 @@
 ﻿using MongoDB.Driver;
 using SimpleBot.Interfaces.Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Configuration;
 
 namespace SimpleBot.Repository
@@ -26,8 +24,9 @@ namespace SimpleBot.Repository
                 usuarioEncontrado = db.GetCollection<UserProfile>("UserProfile")
                     .Find(u => u.IdUser == id).First();
             }
-            catch
+            catch (Exception erro)
             {
+                string er = erro.Message;
             }
 
             return usuarioEncontrado;
@@ -52,10 +51,17 @@ namespace SimpleBot.Repository
         }
 
         public void RemoveUserProfile(UserProfile profile)
-        {            
-            var col = db.GetCollection<UserProfile>("UserProfile");
+        {
+            try
+            {
+                var col = db.GetCollection<UserProfile>("UserProfile");
 
-            col.DeleteOne(p => p.IdUser == profile.IdUser);
+                col.DeleteOne(p => p.IdUser == profile.IdUser);
+            }
+            catch (Exception erro)
+            {
+                string er = erro.Message;
+            }
         }
     }
 }

@@ -1,4 +1,3 @@
-
 namespace SimpleBot.Interfaces.Repository
 {
 	/// <summary>
