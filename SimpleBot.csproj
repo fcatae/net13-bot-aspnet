@@ -145,13 +145,13 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleBot.Models\SimpleBot.Models.csproj">
-      <Project>{08e00f74-cce7-4844-8bdb-6948dbda7cf3}</Project>
-      <Name>SimpleBot.Models</Name>
-    </ProjectReference>
     <ProjectReference Include="SimpleBot.Logic\SimpleBot.Logic.csproj">
       <Project>{e3f8c25f-44a7-4167-9d0c-2a4968f8fc13}</Project>
       <Name>SimpleBot.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="SimpleBot.Models\SimpleBot.Models.csproj">
+      <Project>{895ddc33-f81b-4477-b5c5-e49abe28598c}</Project>
+      <Name>SimpleBot.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -44,8 +44,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SimpleBot.Models\SimpleBot.Models.csproj">
-      <Project>{08e00f74-cce7-4844-8bdb-6948dbda7cf3}</Project>
+    <ProjectReference Include="..\SimpleBot.Models\SimpleBot.Models.csproj">
+      <Project>{895ddc33-f81b-4477-b5c5-e49abe28598c}</Project>
       <Name>SimpleBot.Models</Name>
     </ProjectReference>
   </ItemGroup>

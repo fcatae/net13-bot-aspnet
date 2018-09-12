@@ -4,8 +4,6 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot", "SimpleBot.csproj", "{9C7E3A46-B60F-4052-9A21-DC8D1A942216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot.Models", "..\SimpleBot.Models\SimpleBot.Models.csproj", "{08E00F74-CCE7-4844-8BDB-6948DBDA7CF3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot.Interfaces", "SimpleBot.Interfaces\SimpleBot.Interfaces.csproj", "{3DDFB576-B837-4543-903F-832556699E9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot.Repository", "SimpleBot.Repository\SimpleBot.Repository.csproj", "{FA359EB9-B4CA-49C2-95A1-5412043E64AC}"
@@ -14,10 +12,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot.Logic", "SimpleBo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptsDB", "ScriptsDB", "{9DAF3986-383B-4377-BA80-31C3309F27A9}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_GetProfile.txt = ..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_GetProfile.txt
-		..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_SetProfile.txt = ..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\PR_SetProfile.txt
-		..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\tabela.txt = ..\..\..\..\..\..\..\Users\logonrmlocal\Downloads\SCRIPTS\tabela.txt
+		..\SCRIPTS\PR_GetProfile.txt = ..\SCRIPTS\PR_GetProfile.txt
+		..\SCRIPTS\PR_SetProfile.txt = ..\SCRIPTS\PR_SetProfile.txt
+		..\SCRIPTS\tabela.txt = ..\SCRIPTS\tabela.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleBot.Models", "SimpleBot.Models\SimpleBot.Models.csproj", "{895DDC33-F81B-4477-B5C5-E49ABE28598C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08E00F74-CCE7-4844-8BDB-6948DBDA7CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08E00F74-CCE7-4844-8BDB-6948DBDA7CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08E00F74-CCE7-4844-8BDB-6948DBDA7CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08E00F74-CCE7-4844-8BDB-6948DBDA7CF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3DDFB576-B837-4543-903F-832556699E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3DDFB576-B837-4543-903F-832556699E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DDFB576-B837-4543-903F-832556699E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{E3F8C25F-44A7-4167-9D0C-2A4968F8FC13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3F8C25F-44A7-4167-9D0C-2A4968F8FC13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3F8C25F-44A7-4167-9D0C-2A4968F8FC13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{895DDC33-F81B-4477-B5C5-E49ABE28598C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{895DDC33-F81B-4477-B5C5-E49ABE28598C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{895DDC33-F81B-4477-B5C5-E49ABE28598C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{895DDC33-F81B-4477-B5C5-E49ABE28598C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

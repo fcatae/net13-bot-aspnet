@@ -12,7 +12,8 @@ namespace SimpleBot.Repository
 {
     public class UserProfileSQLRepository : IUserProfileRepository
     {
-        private string connectionString = @"Data Source=.;Initial Catalog=ConectionSQL;Integrated Security=True";
+        private string connectionString = @"Data Source=.;Initial Catalog=ConectionSQL;Integrated Security=True";
+
 
         public UserProfileSQLRepository()
         {
@@ -102,5 +103,7 @@ namespace SimpleBot.Repository
                 con.Close();
             }
         }
+
+        
     }
 }
