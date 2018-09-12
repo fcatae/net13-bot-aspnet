@@ -11,10 +11,13 @@ namespace SimpleBot
     public class SimpleBotUser
     {
         static IUserProfileRepository _userProfileMongoDB;
+        static IUserProfileRepository _userProfileSQLDB;
 
         public SimpleBotUser()
         {
             _userProfileMongoDB = new UserProfileMongoRepo("mongodb://localhost:27017");
+            _userProfileSQLDB = new UserProfileSQLRepo("Server=.;Database=SimpleBotDB;User Id=sa;Password=Pa$$w0rd;");
+            //Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;
         }
 
         public static string Reply(Message message)
@@ -40,9 +43,15 @@ namespace SimpleBot
             //userProfile.Visitas += 1;
             //SetProfile(userProfile.Id, userProfile);
 
-            var profileMongoDB = ProfileMongoDB(message);
+            var visitas = 0;
 
-            return $"{message.User} disse '{message.Text}' e mandou {profileMongoDB.Visitas} messages";
+            //var profileMongoDB = ProfileMongoDB(message);
+            //visitas = profileMongoDB.Visitas;
+
+            var profileSQLDB = ProfileSQLDB(message);
+            visitas = profileSQLDB.Visitas;
+
+            return $"{message.User} disse '{message.Text}' e mandou {visitas} messages";
         }
 
         public static UserProfile ProfileMongoDB(Message message)
@@ -67,6 +76,31 @@ namespace SimpleBot
             _userProfileMongoDB.SetProfile(id, profileMongoDB);
 
             return profileMongoDB;
+        }
+
+        public static UserProfile ProfileSQLDB(Message message)
+        {           
+            var id = message.Id;
+
+            if (_userProfileSQLDB == null)
+                _userProfileSQLDB = new UserProfileSQLRepo("Server=.;Database=SimpleBotDB;User Id=sa;Password=Pa$$w0rd;");
+
+            var profileSQLDB = _userProfileSQLDB.GetProfile(id);
+
+            if (profileSQLDB == null)
+            {
+                profileSQLDB = new UserProfile()
+                {
+                    Id = id,
+                    Visitas = 0
+                };
+            }
+
+            profileSQLDB.Visitas += 1;
+
+            _userProfileSQLDB.SetProfile(id, profileSQLDB);
+
+            return profileSQLDB;
         }
 
         //    public static UserProfile GetProfile(string id)

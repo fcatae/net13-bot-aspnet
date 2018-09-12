@@ -10,4 +10,12 @@ namespace SimpleBot
         public string Id { get; set; }
         public int Visitas { get; set; }
     }
+
+    public class UserProfileSQL
+    {
+        public int Id { get; set; }
+        public string MessageId { get; set; }
+        public int Visitas { get; set; }
+    }
+
 }
