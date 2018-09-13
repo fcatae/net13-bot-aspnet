@@ -26,12 +26,6 @@ namespace SimpleBot.Logic
 
             var profile = cursor.FirstOrDefault();
 
-            //return new UserProfile
-            //{
-            //    Id = profile._id,
-            //    Visitas = profile.Visitas
-            //};
-
             if (profile == null)
                 return null;
             else
@@ -44,31 +38,6 @@ namespace SimpleBot.Logic
 
                 return userProfile;
             }
-
-            //var filtro = Builders<BsonDocument>.Filter.Eq("Id", id);
-            //var res = col.Find(filtro).ToList();
-
-            //UserProfile userProfile = new UserProfile();
-            //if (res.Count == 0)
-            //{
-            //    userProfile.Id = id;
-            //    userProfile.Visitas = 1;
-            //}
-            //else if (res.Count == 1)
-            //{
-            //    foreach (var e in res)
-            //    {
-            //        var s = e.Values.ToList();
-            //        userProfile.Id = e[1].ToString();
-            //        userProfile.Visitas = Int32.Parse(e[2].ToString());
-            //    }
-
-            //}
-            //else
-            //{ }
-
-            //return userProfile;
-
         }
 
         public void SetProfile(string id, UserProfile profile)
