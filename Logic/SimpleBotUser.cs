@@ -22,8 +22,6 @@ namespace SimpleBot
 
         public static string Reply(Message message)
         {
-            //string returnedText = $"{message.User} disse '{message.Text}'";
-
             //var doc = new BsonDocument
             //{
             //    {"id",  message.Id},
