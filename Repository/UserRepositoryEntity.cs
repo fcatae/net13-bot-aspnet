@@ -32,25 +32,13 @@ namespace SimpleBot.Repository
                 string er = erro.Message;
             }
             return user;
-        }
-
-        
+        }        
         public void SetProfile(string id, ref UserProfile profile)
         {
-            if (profile == null)
-            {
-                profile = new UserProfile();
-                profile.IdUser = id;
-                profile.Visitas = 1;
-                this.insert(profile);
-            }
-            else
-            {
-                profile.Visitas += 1;
-                this.update(profile);
-            }    
+            profile.Visitas += 1;
+            this.update(profile);                
         }
-        private void update(UserProfile profile)
+        public void update(UserProfile profile)
         {
             try
             {
@@ -63,8 +51,7 @@ namespace SimpleBot.Repository
                 string er = erro.Message;
             }
         }
-
-        private void insert(UserProfile profile)
+        public void insert(UserProfile profile)
         {
             try
             {
@@ -76,13 +63,11 @@ namespace SimpleBot.Repository
                 string er = erro.Message;
             }
         }
-
         public void RemoveUserProfile(UserProfile profile)
         {
             DbSet.Remove(DbSet.Find(profile.IdUser));
             Db.SaveChanges();
         }
-
         public void Dispose()
         {
             if (Db != null)

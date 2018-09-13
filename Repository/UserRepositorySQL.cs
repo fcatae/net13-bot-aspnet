@@ -12,8 +12,7 @@ namespace SimpleBot.Repository
 
         public UserRepositorySQL()
         {
-            client = new SqlConnection(ConfigurationManager.AppSettings["ConnectionStringSQL"].ToString());
-            
+            client = new SqlConnection(ConfigurationManager.AppSettings["ConnectionStringSQL"].ToString());            
         }
         public UserProfile GetProfile(string id)
         {
@@ -48,21 +47,11 @@ namespace SimpleBot.Repository
 
         public void SetProfile(string id, ref UserProfile profile)
         {
-            if (profile == null)
-            {
-                profile = new UserProfile();
-                profile.IdUser = id;
-                profile.Visitas = 1;
-                this.insert(profile);
-            }
-            else
-            {
-                profile.Visitas += 1;
-                this.update(profile);
-            }
+            profile.Visitas += 1;
+            this.update(profile);            
         }
 
-        private void update(UserProfile profile)
+        public void update(UserProfile profile)
         { 
             try
             {
@@ -80,7 +69,7 @@ namespace SimpleBot.Repository
             }            
         }
 
-        private void insert(UserProfile profile)
+        public void insert(UserProfile profile)
         {
             try
             {
@@ -121,6 +110,15 @@ namespace SimpleBot.Repository
             finally
             {
                 client.Close();
+            }
+        }
+
+        public void Dispose()
+        {
+            if (client != null)
+            {
+                client.Dispose();
+                GC.SuppressFinalize(this);
             }
         }
     }

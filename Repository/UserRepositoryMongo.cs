@@ -36,18 +36,8 @@ namespace SimpleBot.Repository
         {           
             var col = db.GetCollection<UserProfile>("UserProfile");
 
-            if (profile == null)
-            {
-                profile = new UserProfile();
-                profile.IdUser = id;
-                profile.Visitas = 1;
-                col.InsertOne(profile);
-            }
-            else
-            {
-                profile.Visitas += 1;
-                col.ReplaceOne(p => p.IdUser == id, profile);
-            }
+            profile.Visitas += 1;
+            this.update(profile);
         }
 
         public void RemoveUserProfile(UserProfile profile)
@@ -60,7 +50,29 @@ namespace SimpleBot.Repository
             }
             catch (Exception erro)
             {
-                string er = erro.Message;
+                Console.WriteLine(erro.Message);
+            }
+        }
+        
+        public void update(UserProfile profile)
+        {
+            var col = db.GetCollection<UserProfile>("UserProfile");
+
+            col.ReplaceOne(p => p.IdUser == profile.IdUser, profile);
+        }
+
+        public void insert(UserProfile profile)
+        {
+            var col = db.GetCollection<UserProfile>("UserProfile");
+
+            col.InsertOne(profile);
+        }
+
+        public void Dispose()
+        {
+            if (client != null)
+            {
+                GC.SuppressFinalize(this);
             }
         }
     }

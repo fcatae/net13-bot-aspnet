@@ -8,10 +8,18 @@ namespace SimpleBot
 
         public static string Reply(Message message)
         {
-            UserRepositoryEntity user = new UserRepositoryEntity(context);
+            UserRepositoryMongo user = new UserRepositoryMongo();
 
             var id = message.Id;
             var profile = user.GetProfile(id);
+
+            if (profile == null)
+            {
+                profile = new UserProfile();
+                profile.IdUser = id;
+                profile.Visitas = 0;
+                user.insert(profile);
+            }
 
             user.SetProfile(id, ref profile);
             switch (message.Text)
