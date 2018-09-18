@@ -1,47 +1,48 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using SimpleBot.Logic;
 
 namespace SimpleBot
 {
-    public class SimpleBotUser
+    public static class SimpleBotUser
     {
-        private static string MongoDBConectionString = ConfigurationManager.AppSettings["MDBConectionString"];
+        static IUserProfileRepository _userProfile;
+
+        static SimpleBotUser()
+        {
+            _userProfile = new UserProfileSQLRepo("mongodb://127.0.0.1");
+        }
+
         public static string Reply(Message message)
         {
-            SetProfile(message.Id, null);
+            var id = message.Id;
 
-            return $"{message.User} disse '{message.Text}'";
+            var profile = _userProfile.GetProfile(id);
+
+            profile.Visitas += 1;
+
+            _userProfile.SetProfile(id, profile);
+
+            return $"{message.User} disse '{message.Text} e mandou {profile.Visitas} mensagens'";
         }
 
-        public static UserProfile GetProfile(string id)
-        {
+        //public static void SalvarHistorico(Message message)
+        //{
+        //    var client = new MongoClient("mongodb://localhost:27017");
 
-            return null;
-        }
+        //    var doc = new BsonDocument
+        //    {
+        //        { "id", message.Id },
+        //        { "texto", message.Text},
+        //        { "app", "teste"}
+        //    };
 
-        public static void SetProfile(string id, UserProfile profile)
-        {
-            var MongoCliente = new MongoClient();
+        //    var db = client.GetDatabase("db01");
+        //    var col = db.GetCollection<BsonDocument>("tabela01");
+        //    col.InsertOne(doc);
+        //}
 
-            var db = MongoCliente.GetDatabase("dbBOT");
-            var col = db.GetCollection<BsonDocument>("Users_Profiles");
-
-            var user = new BsonDocument
-            {
-                { "Id", id },
-                { "Visitas", 1 }
-            };
-            col.InsertOne(user);
-
-
-            var filtro = Builders<BsonDocument>.Filter.Eq("Id", id);
-
-            var res = col.Find(filtro).ToList();
-        }
     }
 }
