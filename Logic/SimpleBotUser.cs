@@ -47,13 +47,22 @@ namespace SimpleBot
 
             var visitas = 0;
 
+            /*
+             *  Exemplo de Acesso via Mongo DB
+             * 
+             */
             var profileMongoDB = RegistraVisitaEmMongoDB(message);
             visitas = profileMongoDB.Visitas;
 
-            //var profileSQLDB = ProfileSQLDB(message);
-            //visitas = profileSQLDB.Visitas;
+            /*
+             *  Exemplo de Acesso via SQL DB
+             * 
+             */
+        
+            var profileSQLDB = RegistraAcessoEmSQLDB(message);
+            visitas = profileSQLDB.Visitas;
 
-            return $"{message.User} disse '{message.Text}' e mandou {visitas} messages";
+            return $"{message.User} disse '{message.Text}'";
         }
 
         public static UserProfile RegistraVisitaEmMongoDB(Message message)
@@ -80,7 +89,7 @@ namespace SimpleBot
             return profileMongoDB;
         }
 
-        public static UserProfile ProfileSQLDB(Message message)
+        public static UserProfile RegistraAcessoEmSQLDB(Message message)
         {           
             var id = message.Id;
 
