@@ -22,37 +22,41 @@ namespace SimpleBot
 
         public static string Reply(Message message)
         {
-            //var doc = new BsonDocument
-            //{
-            //    {"id",  message.Id},
-            //    {"user", message.User },
-            //    {"originalText", message.Text },
-            //    {"returnedText", returnedText },
-            //    {"messageDT", DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy") }
-            //};
+            /*
+             * Salva mensagens
+             * 
+            var doc = new BsonDocument
+            {
+                {"id",  message.Id},
+                {"user", message.User },
+                {"originalText", message.Text },
+                {"returnedText", returnedText },
+                {"messageDT", DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy") }
+            };
 
-            //var client = new MongoClient("mongodb://localhost:27017");
-            //var db = client.GetDatabase("SimpleBotDB");
-            //var col = db.GetCollection<BsonDocument>("messagesTable");
+            var client = new MongoClient("mongodb://localhost:27017");
+            var db = client.GetDatabase("SimpleBotDB");
+            var col = db.GetCollection<BsonDocument>("messagesTable");
 
-            //col.InsertOne(doc);
+            col.InsertOne(doc);
 
-            //UserProfile userProfile = GetProfile(message.Id);
-            //userProfile.Visitas += 1;
-            //SetProfile(userProfile.Id, userProfile);
+            UserProfile userProfile = GetProfile(message.Id);
+            userProfile.Visitas += 1;
+            SetProfile(userProfile.Id, userProfile);
+            */
 
             var visitas = 0;
 
-            //var profileMongoDB = ProfileMongoDB(message);
-            //visitas = profileMongoDB.Visitas;
+            var profileMongoDB = RegistraEmMongoDB(message);
+            visitas = profileMongoDB.Visitas;
 
-            var profileSQLDB = ProfileSQLDB(message);
-            visitas = profileSQLDB.Visitas;
+            //var profileSQLDB = ProfileSQLDB(message);
+            //visitas = profileSQLDB.Visitas;
 
             return $"{message.User} disse '{message.Text}' e mandou {visitas} messages";
         }
 
-        public static UserProfile ProfileMongoDB(Message message)
+        public static UserProfile RegistraEmMongoDB(Message message)
         {
             var id = message.Id;
             if (_userProfileMongoDB == null)
