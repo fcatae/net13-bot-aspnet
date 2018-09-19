@@ -9,7 +9,7 @@ using SimpleBot.Logic;
 
 namespace SimpleBot.Controllers
 {
-    //Versão Inicial
+    //Versão Inicial 
     [BotAuthentication]
     public class MessagesController : ApiController
     {

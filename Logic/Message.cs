@@ -10,7 +10,7 @@
         {
             Id = id;
             User = username;
-            Text = text;
+            Text = text; 
         }
     }
 }

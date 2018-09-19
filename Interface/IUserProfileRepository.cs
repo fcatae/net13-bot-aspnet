@@ -6,6 +6,6 @@ namespace SimpleBot.Interface
     {
         UserProfile GetProfile(string id);
 
-        void SetProfile(string id, UserProfile profile);
+        void SetProfile(string id, UserProfile profile); 
     }
 }

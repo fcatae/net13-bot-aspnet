@@ -2,7 +2,7 @@
 using System.Linq;
 using SimpleBot.Interface;
 using System.Data.Entity;
-using SimpleBot.Model;
+using SimpleBot.Model; 
 
 namespace SimpleBot.Logic
 {

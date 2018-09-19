@@ -4,7 +4,6 @@ namespace SimpleBot.Logic
 {
     public  class SimpleBotUser
     {
-
         public string Popula_UserProfile(Message message)
         {
             var id = message.Id;
@@ -28,7 +27,5 @@ namespace SimpleBot.Logic
         {
            return Popula_UserProfile(message);
         }
-
-       
     }
 }
