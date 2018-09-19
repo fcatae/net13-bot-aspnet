@@ -47,7 +47,7 @@ namespace SimpleBot
 
             var visitas = 0;
 
-            var profileMongoDB = RegistraEmMongoDB(message);
+            var profileMongoDB = RegistraVisitaEmMongoDB(message);
             visitas = profileMongoDB.Visitas;
 
             //var profileSQLDB = ProfileSQLDB(message);
@@ -56,7 +56,7 @@ namespace SimpleBot
             return $"{message.User} disse '{message.Text}' e mandou {visitas} messages";
         }
 
-        public static UserProfile RegistraEmMongoDB(Message message)
+        public static UserProfile RegistraVisitaEmMongoDB(Message message)
         {
             var id = message.Id;
             if (_userProfileMongoDB == null)
