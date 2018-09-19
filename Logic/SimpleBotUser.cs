@@ -64,6 +64,11 @@ namespace SimpleBot
                 {
                     visitas = profileMongoDB.Visitas;
                 }
+                else
+                {
+                    visitas = profileSQLDB.Visitas;
+                    //visitas = profileMongoDB.Visitas;
+                }
             }
             else
             {
