@@ -2,7 +2,6 @@
 using SimpleBot.Logic;
 using SimpleBot.Repository.Interfaces;
 using System.Data.SqlClient;
-using Dapper.Contrib.Extensions;
 
 namespace SimpleBot.Repository.SqlServer
 {
