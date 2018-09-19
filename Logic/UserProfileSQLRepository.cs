@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using SimpleBot.Interface;
 using System.Data.Entity;
 using SimpleBot.Model;
 
 namespace SimpleBot.Logic
 {
-    public class UserProfileSQLRepository : IUserProfileRepository
+    public class UserProfileSqlRepository : IUserProfileRepository
     {
-        private Contexto context;
-        private List<Profile> _collection;
+        private readonly Contexto _context;
+        private readonly List<Profile> _collection;
        
 
-        public UserProfileSQLRepository(Contexto context)
+        public UserProfileSqlRepository(Contexto context)
         {
-            this.context = context;
-            this._collection = context.Profile.ToList();
+            _context = context;
+            _collection = context.Profile.ToList();
         }
         
         public UserProfile GetProfile(string id)
         {
             
-            var profile = _collection.Where(x=>x.MessageId==id).FirstOrDefault();
-
-            if (profile == null) profile = new Profile();
+            var profile = _collection.FirstOrDefault(x => x.MessageId==id) ?? new Profile();
 
             return new UserProfile
             {
@@ -37,18 +33,19 @@ namespace SimpleBot.Logic
 
         public void SetProfile(string id, UserProfile profile)
         {
-            var prof = _collection.Where(x => x.MessageId == id).FirstOrDefault();
+            var prof = _collection.FirstOrDefault(x => x.MessageId == id);
 
             if (prof == null)
             {
-                prof = new Profile();
+                prof = new Profile
+                {
+                    MessageId = profile.Id,
+                    Visitas = profile.Visitas,
+                    Nome = profile.Id
+                };
 
-                prof.MessageId = profile.Id;
-                prof.Visitas = profile.Visitas;
-                prof.Nome = profile.Id;
-
-                context.Profile.Add(prof);
-                context.SaveChanges();
+                _context.Profile.Add(prof);
+                _context.SaveChanges();
 
                 return;
             }
@@ -56,8 +53,8 @@ namespace SimpleBot.Logic
             prof.MessageId = profile.Id;
             prof.Visitas = profile.Visitas;
 
-            context.Entry(prof).State = EntityState.Modified;
-            context.SaveChanges();
+            _context.Entry(prof).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }

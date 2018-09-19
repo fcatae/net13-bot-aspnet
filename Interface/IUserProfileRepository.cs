@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SimpleBot.Logic;
 
 namespace SimpleBot.Interface
 {
-    interface IUserProfileRepository
+    internal interface IUserProfileRepository
     {
         UserProfile GetProfile(string id);
 

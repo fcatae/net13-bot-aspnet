@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.Bot.Connector;
+using SimpleBot.Logic;
 
-namespace SimpleBot
+namespace SimpleBot.Controllers
 {
     //Versão Inicial
     [BotAuthentication]
@@ -27,13 +28,13 @@ namespace SimpleBot
         // Estabelece comunicação entre o usuário e o SimpleBotUser
         async Task HandleActivityAsync(Activity activity)
         {
-            string text = activity.Text;
-            string userFromId = activity.From.Id;
-            string userFromName = activity.From.Name;
+            var text = activity.Text;
+            var userFromId = activity.From.Id;
+            var userFromName = activity.From.Name;
 
             var message = new Message(userFromId, userFromName, text);
 
-            string response = new SimpleBotUser().Reply(message);
+            var response = new SimpleBotUser().Reply(message);
 
             await ReplyUserAsync(activity, response);
         }

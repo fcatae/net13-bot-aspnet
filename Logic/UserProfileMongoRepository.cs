@@ -1,8 +1,5 @@
-﻿using SimpleBot.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
+using SimpleBot.Interface;
 using MongoDB.Driver;
 using System.Configuration;
 
@@ -10,40 +7,37 @@ namespace SimpleBot.Logic
 {
     public class UserProfileMongoRepository : IUserProfileRepository
     {
-
-        private readonly MongoClient client;
-        private readonly IMongoDatabase db;
+        private readonly IMongoDatabase _db;
 
         public UserProfileMongoRepository()
         {
-            client = new MongoClient(ConfigurationManager.AppSettings["ConnectionStringMongo"].ToString());
-            db = client.GetDatabase("dbNet13");
-
+            var client = new MongoClient(ConfigurationManager.AppSettings["ConnectionStringMongo"]);
+            _db = client.GetDatabase("dbNet13");
         }
+
         public UserProfile GetProfile(string id)
         {
             UserProfile usuarioEncontrado = null;
             try
             {
-                usuarioEncontrado = db.GetCollection<UserProfile>("UserProfile")
+                usuarioEncontrado = _db.GetCollection<UserProfile>("UserProfile")
                     .Find(u => u.Id == id).First();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
             }
-
+            
             return usuarioEncontrado;
         }
 
         public void SetProfile(string id, UserProfile profile)
         {
-            var col = db.GetCollection<UserProfile>("UserProfile");
+            var col = _db.GetCollection<UserProfile>("UserProfile");
 
             if (profile == null)
             {
-                profile = new UserProfile();
-                profile.Id = id;
-                profile.Visitas = 1;
+                profile = new UserProfile{Id = id, Visitas = 1};
                 col.InsertOne(profile);
             }
             else
@@ -53,13 +47,18 @@ namespace SimpleBot.Logic
             }
         }          
 
-       
-
         public void RemoveUserProfile(UserProfile profile)
         {
-            var col = db.GetCollection<UserProfile>("UserProfile");
+            try
+            {
+                var col = _db.GetCollection<UserProfile>("UserProfile");
 
-            col.DeleteOne(p => p.Id == profile.Id);
+                col.DeleteOne(p => p.Id == profile.Id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);                
+            }            
         }
     }
 

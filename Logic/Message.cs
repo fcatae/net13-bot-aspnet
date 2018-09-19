@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SimpleBot
+﻿namespace SimpleBot.Logic
 {
     public class Message
     {
@@ -13,9 +8,9 @@ namespace SimpleBot
 
         public Message(string id, string username, string text)
         {
-            this.Id = id;
-            this.User = username;
-            this.Text = text;
+            Id = id;
+            User = username;
+            Text = text;
         }
     }
 }
