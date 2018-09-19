@@ -17,15 +17,16 @@ namespace SimpleBot.Logic
 
         public UserProfile GetProfile(string id)
         {
-            UserProfileSQL profileSql = _dbContext.UserProfile.FirstOrDefault(x => x.MessageId == id);
+            UserProfileSQL profileSql = _dbContext.UserProfile.FirstOrDefault(x => x.UserId == id);
             if (profileSql == null)
                 return null;
             else
             {
                 UserProfile userProfile = new UserProfile()
                 {
-                    Id = profileSql.MessageId,
-                    Visitas = profileSql.Visitas
+                    Id = profileSql.UserId,
+                    Visitas = profileSql.Visitas,
+                    HorarioRegistro = profileSql.HorarioRegistro
                 };
 
                 return userProfile;
@@ -34,14 +35,15 @@ namespace SimpleBot.Logic
 
         public void SetProfile(string id, UserProfile profile)
         {
-            UserProfileSQL profileSql = _dbContext.UserProfile.FirstOrDefault(x => x.MessageId == id);
+            UserProfileSQL profileSql = _dbContext.UserProfile.FirstOrDefault(x => x.UserId == id);
 
             if (profileSql == null)
             {
                 profileSql = new UserProfileSQL()
                 {
-                    MessageId = profile.Id,
-                    Visitas = profile.Visitas
+                    UserId = profile.Id,
+                    Visitas = profile.Visitas,
+                    HorarioRegistro = profile.HorarioRegistro
                 };
 
                 _dbContext.UserProfile.Add(profileSql);
@@ -49,8 +51,9 @@ namespace SimpleBot.Logic
             }
             else
             {
-                _dbContext.UserProfile.First(x => x.Id == profileSql.Id).MessageId = profile.Id;
+                _dbContext.UserProfile.First(x => x.Id == profileSql.Id).UserId = profile.Id;
                 _dbContext.UserProfile.First(x => x.Id == profileSql.Id).Visitas = profile.Visitas;
+                _dbContext.UserProfile.First(x => x.Id == profileSql.Id).HorarioRegistro = profile.HorarioRegistro;
                 _dbContext.SaveChanges();
             }
         }

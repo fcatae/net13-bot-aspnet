@@ -45,24 +45,79 @@ namespace SimpleBot
             SetProfile(userProfile.Id, userProfile);
             */
 
+            var id = message.Id;
+
             var visitas = 0;
+            DateTime horarioRegistro = DateTime.Now;
 
-            /*
-             *  Exemplo de Acesso via Mongo DB
-             * 
-             */
-            var profileMongoDB = RegistraVisitaEmMongoDB(message);
-            visitas = profileMongoDB.Visitas;
+            var profileMongoDB = GetProfileMongoDB(id);
 
-            /*
-             *  Exemplo de Acesso via SQL DB
-             * 
-             */
-        
-            var profileSQLDB = RegistraAcessoEmSQLDB(message);
-            visitas = profileSQLDB.Visitas;
+            var profileSQLDB = GetProfileSqlDB(id);
 
-            return $"{message.User} disse '{message.Text}'";
+            if (profileMongoDB.Visitas != profileSQLDB.Visitas)
+            {
+                if (profileSQLDB.HorarioRegistro > profileMongoDB.HorarioRegistro)
+                {
+                    visitas = profileSQLDB.Visitas;
+                }
+                else if (profileSQLDB.HorarioRegistro < profileMongoDB.HorarioRegistro)
+                {
+                    visitas = profileMongoDB.Visitas;
+                }
+            }
+            else
+            {
+                visitas = profileSQLDB.Visitas;
+                //visitas = profileMongoDB.Visitas;
+            }
+
+            visitas += 1;
+
+            profileMongoDB.Id = id;
+            profileMongoDB.Visitas = visitas;
+            profileMongoDB.HorarioRegistro = horarioRegistro;
+
+            SetProfileMongoDB(id, profileMongoDB);
+
+            profileSQLDB.Id = id;
+            profileSQLDB.Visitas = visitas;
+            profileSQLDB.HorarioRegistro = horarioRegistro;
+
+            SetProfileSqlDB(id, profileSQLDB);
+
+            return $"{message.User} disse '{message.Text}' e enviou {visitas} mensagens.";
+        }
+
+        public static UserProfile GetProfileMongoDB(string Id)
+        {
+            string id = Id;
+
+            if (_userProfileMongoDB == null)
+                _userProfileMongoDB = new UserProfileMongoRepo("mongodb://localhost:27017");
+
+            var profileMongoDB = _userProfileMongoDB.GetProfile(id);
+
+            if (profileMongoDB == null)
+            {
+                profileMongoDB = new UserProfile()
+                {
+                    Id = id,
+                    Visitas = 0,
+                    HorarioRegistro = DateTime.Now
+                };
+            }
+            return profileMongoDB;
+        }
+
+        public static void SetProfileMongoDB(string Id, UserProfile userProfile)
+        {
+            var id = Id;
+            var profileMongoDB = userProfile;
+
+            if (_userProfileMongoDB == null)
+                _userProfileMongoDB = new UserProfileMongoRepo("mongodb://localhost:27017");
+
+            _userProfileMongoDB.SetProfile(id, profileMongoDB);
         }
 
         public static UserProfile RegistraVisitaEmMongoDB(Message message)
@@ -78,20 +133,22 @@ namespace SimpleBot
                 profileMongoDB = new UserProfile()
                 {
                     Id = id,
-                    Visitas = 0
+                    Visitas = 0,
+                    HorarioRegistro = DateTime.Now
                 };
             }
    
             profileMongoDB.Visitas += 1;
+            profileMongoDB.HorarioRegistro = DateTime.Now;
 
             _userProfileMongoDB.SetProfile(id, profileMongoDB);
 
             return profileMongoDB;
         }
 
-        public static UserProfile RegistraAcessoEmSQLDB(Message message)
-        {           
-            var id = message.Id;
+        public static UserProfile GetProfileSqlDB(string Id)
+        {
+            string id = Id;
 
             if (_userProfileSQLDB == null)
                 _userProfileSQLDB = new UserProfileSQLRepo("Server=.;Database=SimpleBotDB;User Id=sa;Password=Pa$$w0rd;");
@@ -103,15 +160,22 @@ namespace SimpleBot
                 profileSQLDB = new UserProfile()
                 {
                     Id = id,
-                    Visitas = 0
+                    Visitas = 0,
+                    HorarioRegistro = DateTime.Now
                 };
             }
+            return profileSQLDB;
+        }
 
-            profileSQLDB.Visitas += 1;
+        public static void SetProfileSqlDB(string Id, UserProfile userProfile)
+        {
+            var id = Id;
+            var profileSQLDB = userProfile;
+
+            if (_userProfileSQLDB == null)
+                _userProfileSQLDB = new UserProfileSQLRepo("Server=.;Database=SimpleBotDB;User Id=sa;Password=Pa$$w0rd;");
 
             _userProfileSQLDB.SetProfile(id, profileSQLDB);
-
-            return profileSQLDB;
         }
 
         //    public static UserProfile GetProfile(string id)

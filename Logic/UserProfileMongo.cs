@@ -12,5 +12,6 @@ namespace SimpleBot.Logic
         //public string _id { get; set; }
         public string Id { get; set; }
         public int Visitas { get; set; }
+        public DateTime HorarioRegistro { get; set; }
     }
 }

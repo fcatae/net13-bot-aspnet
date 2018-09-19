@@ -33,7 +33,8 @@ namespace SimpleBot.Logic
                 UserProfile userProfile = new UserProfile()
                 {
                     Id = profile.Id,
-                    Visitas = profile.Visitas
+                    Visitas = profile.Visitas,
+                    HorarioRegistro = profile.HorarioRegistro
                 };
 
                 return userProfile;
@@ -47,7 +48,8 @@ namespace SimpleBot.Logic
             var doc = new UserProfileMongo
             {
                 Id = profile.Id,
-                Visitas = profile.Visitas
+                Visitas = profile.Visitas,
+                HorarioRegistro = profile.HorarioRegistro
             };
 
             _collection.ReplaceOne(filter, doc, new UpdateOptions { IsUpsert = true });
