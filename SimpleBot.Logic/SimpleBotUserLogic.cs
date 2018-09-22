@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace SimpleBot.Logic 
 {
+    // Parabens!!! Retiraram os statics!!! Isso era um erro do meu codigo..
+    
     public class SimpleBotUserLogic 
     {   
 
