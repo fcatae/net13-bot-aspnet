@@ -12,13 +12,20 @@ namespace SimpleBot.Repository
 {
     public class UserProfileMongoRepository 
     {
-        public string Reply(MessageModel message)
+        // Esse codigo abaixo nao funciona - falta adicionar o tipo correto.
+        var col;
+        
+        public UserProfileMongoRepository(string connectionString)
         {
             var cliente = new MongoClient("mongodb://localhost:27017");
             var db = cliente.GetDatabase("13Net");
-
-            var col = db.GetCollection<BsonDocument>("tabela01");
-
+            
+            // Define em uma propriedade
+            this.col = db.GetCollection<BsonDocument>("tabela01");
+        }
+        
+        public string Reply(MessageModel message)
+        {
             var profile = GetProfile(message.Id);
 
             var doc = new BsonDocument()
@@ -37,11 +44,6 @@ namespace SimpleBot.Repository
 
         public UserProfileModel GetProfile(string id)
         {
-            var cliente = new MongoClient("mongodb://localhost:27017");
-            var db = cliente.GetDatabase("13Net");
-
-            var col = db.GetCollection<BsonDocument>("tabela01");
-
             var doc = new BsonDocument()
             {
                 { "Id", id}
@@ -61,7 +63,7 @@ namespace SimpleBot.Repository
 
         public void SetProfile(string id, UserProfileModel profile)
         {
-
+            // Nao foi implementado???
         }
     }
 }
