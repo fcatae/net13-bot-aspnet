@@ -30,6 +30,7 @@ namespace SimpleBot.Logic
             };
         }
 
+        // Isso nao vai funcionar: veja que UserProfiler é diferente de UserProfileSQL
         public void SetProfile(string id, UserProfile profile)
         {
             _context.Set<UserProfile>().Add(profile);
