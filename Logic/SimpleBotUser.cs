@@ -12,6 +12,7 @@ namespace SimpleBot
 
         static SimpleBotUser()
         {
+            // Voces testaram o SQL Repo?
             _userProfile = new UserProfileSQLRepo("mongodb://127.0.0.1");
         }
 
