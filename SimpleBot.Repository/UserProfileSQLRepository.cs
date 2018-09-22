@@ -12,12 +12,12 @@ namespace SimpleBot.Repository
 {
     public class UserProfileSQLRepository : IUserProfileRepository
     {
-        private string connectionString = @"Data Source=.;Initial Catalog=ConectionSQL;Integrated Security=True";
+        private string connectionString;
 
-
-        public UserProfileSQLRepository()
+        // Passe a configuracao por connection string
+        public UserProfileSQLRepository(string connectionString)
         {
-           
+           this.connectionString = connectionString;
         }
         
         public string Reply(MessageModel message)
@@ -66,10 +66,7 @@ namespace SimpleBot.Repository
                 else
                     return null;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            // Evite try-catch
             finally
             {
                 con.Close();
@@ -94,10 +91,7 @@ namespace SimpleBot.Repository
                 cmd.ExecuteNonQuery();
 
             }
-            catch (Exception ex)
-            {
-                throw ex;  // retorna mensagem de erro
-            }
+            // evite try-catch
             finally
             {
                 con.Close();
