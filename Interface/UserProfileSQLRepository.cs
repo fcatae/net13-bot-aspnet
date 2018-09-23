@@ -7,7 +7,7 @@ namespace SimpleBot
 {
     public class UserProfileSQLRepository : IUserProfileRepository
     {
-
+        // Atencao: DbContext nao eh thread-safe
         private BotContext db = new BotContext();
 
         public UserProfile GetProfile(string id)
@@ -17,6 +17,7 @@ namespace SimpleBot
                 var profile = db.profileSQLs.Where(x => x.Id == id);
                 return profile.Select(x => new UserProfile { Id = x.Id, Visitas = x.Visitas }).FirstOrDefault();
             }
+            // Nao use catch...
             catch (Exception)
             {
                 throw;
