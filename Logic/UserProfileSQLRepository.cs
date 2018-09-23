@@ -9,12 +9,14 @@ namespace SimpleBot.Logic
     public class UserProfileSqlRepository : IUserProfileRepository
     {
         private readonly Contexto _context;
-        private readonly List<Profile> _collection;
+        // Nao armazenar em memoria
+        // private readonly List<Profile> _collection;
        
 
         public UserProfileSqlRepository(Contexto context)
         {
             _context = context;
+            // Nao pode fazer isso!!!
             _collection = context.Profile.ToList();
         }
         
@@ -53,7 +55,9 @@ namespace SimpleBot.Logic
             prof.MessageId = profile.Id;
             prof.Visitas = profile.Visitas;
 
+            // Essa linha indica que algo esta errado na utilizacao do EF
             _context.Entry(prof).State = EntityState.Modified;
+            
             _context.SaveChanges();
         }
     }
