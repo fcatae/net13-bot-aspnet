@@ -6,6 +6,7 @@ using System.Web;
 
 namespace SimpleBot
 {
+    // Nao implementa o repositório
     public class SimpleBotUser
     {
         public static string Reply(Message message)
