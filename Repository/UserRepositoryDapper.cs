@@ -86,13 +86,14 @@ namespace SimpleBot.Repository
             cn.Query<UserProfile>(sql,new { idUser = profile.IdUser });            
         }
 
+        // Evite fazer o Dispose: essa classe nao é responsável pelo DbContext
         public void Dispose()
         {
-            if (Db != null)
-            {
-                Db.Dispose();
-                GC.SuppressFinalize(this);
-            }
+            //if (Db != null)
+            //{
+            //    Db.Dispose();
+            //    GC.SuppressFinalize(this);
+            //}
         }
     }
 }
