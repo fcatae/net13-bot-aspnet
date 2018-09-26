@@ -10,8 +10,9 @@ namespace SimpleBot
 {
     public class SimpleBotUser
     {
-        static IUserProfileRepository _userProfileMongoDB;
-        static IUserProfileRepository _userProfileSQLDB;
+        //static IUserProfileRepository _userProfileMongoDB;
+        //static IUserProfileRepository _userProfileSQLDB;
+        static IUserProfileRepository _userProfile;
 
         public SimpleBotUser()
         {
