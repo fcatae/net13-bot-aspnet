@@ -8,11 +8,13 @@ namespace SimpleBot.Repository
 {
     public class UserRepositorySQL : IUserProfileRepository
     {
-        private readonly SqlConnection client;
+        private string _connectionString;
+        //private readonly SqlConnection client;
 
-        public UserRepositorySQL()
+        // passar a configuraçao pelo construtor
+        public UserRepositorySQL(string connectionString)
         {
-            client = new SqlConnection(ConfigurationManager.AppSettings["ConnectionStringSQL"].ToString());            
+            // client = new SqlConnection(ConfigurationManager.AppSettings["ConnectionStringSQL"].ToString());            
         }
         public UserProfile GetProfile(string id)
         {
@@ -33,10 +35,11 @@ namespace SimpleBot.Repository
                 }
                 rs.Close();
             }
-            catch(Exception erro)
-            {
-                string er = erro.Message;
-            }
+            // nao faca catch
+            //catch(Exception erro)
+            //{
+            //    string er = erro.Message;
+            //}
             finally
             {
                 client.Close();
