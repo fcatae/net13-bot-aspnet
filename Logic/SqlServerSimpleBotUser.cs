@@ -4,7 +4,7 @@ namespace SimpleBot.Logic
 {
     public class SqlServerSimpleBotUser
     {
-
+        // Essa classe nao deveria existir
         public static string Reply(Message message)
         {          
             var profile = GetProfile(message.Id);            
