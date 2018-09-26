@@ -8,10 +8,16 @@ namespace SimpleBot.Interfaces.Repository
 	public interface IUserProfileRepository
 	{
         UserProfile GetProfile(string id);
+		
+	// Por que parametro ref?
         void SetProfile(string id, ref UserProfile profile);
+		
+	// Cuidado com a nomenclatura: letra minuscula?
         void update(UserProfile profile);
         void insert(UserProfile profile);
         void RemoveUserProfile(UserProfile profile);
-        void Dispose();
+        
+	// Evitar Dispose: seria possível refatorar o código e evitar?
+	void Dispose();
     }
 }
