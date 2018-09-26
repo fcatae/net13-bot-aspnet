@@ -116,6 +116,8 @@ namespace SimpleBot.Repository
             }
         }
 
+        // embora o Dispose esteja correto... o ideal seria encapsular
+        // o Dispose dentro dos métodos.
         public void Dispose()
         {
             if (client != null)
