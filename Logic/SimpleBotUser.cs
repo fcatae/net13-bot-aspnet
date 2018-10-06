@@ -9,15 +9,7 @@ namespace SimpleBot
     public class SimpleBotUser
     {
         public static string Reply(Message message)
-        {
-            if (message.Text.ToLower().Contains("renato"))
-            {
-                return "É lokaum !";
-            }else if (message.Text.ToLower().Contains("igor"))
-            {
-                return "É de boas !";
-            }
-
+        {   
             var profile = MongoDb.AddVisitReturnProfile(message.UserId);
 
             return $"{message.User} disse '{message.Text}' - Esta é a " + profile.Visitas + " vez que envia uma mensagem !";
